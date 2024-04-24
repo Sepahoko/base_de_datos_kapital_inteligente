@@ -1,5 +1,5 @@
 import 'package:mysql1/mysql1.dart';
-
+//la clase padres
 abstract class Usuario {
   //Propiedades
   int? id;
