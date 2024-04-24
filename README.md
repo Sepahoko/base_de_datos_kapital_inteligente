@@ -1,0 +1,1 @@
+Esta aplicación será una base de datos, creada para el instituto kapital inteligente.  
