@@ -30,7 +30,7 @@ class Database {
       host: this._host, 
       port: this._port,
       user: this._user,
-      db: 'damdb'
+      db: 'kapital'
     );
       
     return await MySqlConnection.connect(settings);
@@ -52,7 +52,9 @@ class Database {
         correo VARCHAR(50),
         telefono VARCHAR(9),
         direccion VARCHAR(50),
-        genero VARCHAR(20)
+        genero VARCHAR(20),
+        inicioContrato DATE,
+        finContrato DATE
     )''');
     print('Tabla profesores creada');
   }
