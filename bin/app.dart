@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'profesor.dart';
+
 class App{
   menuInicial(){
     int? opcion;
@@ -67,14 +69,14 @@ class App{
     }
 
    loginProfesor() async {
-     Usuario usuario = new Usuario();
+     Profesor profesor = new Profesor();
       stdout.writeln('Introduce tu nombre de usuario');
-      usuario.nombre = stdin.readLineSync();
+      profesor.nombre = stdin.readLineSync();
       stdout.writeln('Introduce tu constraseña');
-      usuario.password = stdin.readLineSync();
-      var resultado = await usuario.loginUsuario();
+      profesor.password = stdin.readLineSync();
+      var resultado = await profesor.loginProfesor();
       if(resultado == false){
-        stdout.writeln('Tu nombre de Alumno o contraseña son incorrectos');
+        stdout.writeln('Tu nombre de Profesor o contraseña son incorrectos');
         menuInicial();
       } else {
     
