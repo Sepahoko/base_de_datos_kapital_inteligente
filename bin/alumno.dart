@@ -6,15 +6,16 @@ class Alumno{
   int? _idalumno;
   String? _nombre;
   String? _password;
-  String? curso;
-  String? grupo;
-  String? fechaNacimiento;
-  String? correo;
-  String? telefono;
-  String? direccion;
-  String? genero;
-  String? fechaIngreso;
-  String? fechaGraduacion;
+  String? _curso;
+  String? _grupo;
+  int faltas = 0;
+  String? _fechaNacimiento;
+  String? _correo;
+  String? _telefono;
+  String? _direccion;
+  String? _genero;
+  String? _fechaIngreso;
+  String? _fechaGraduacion;
 
   //getters y setters
    String? get nombre {
@@ -44,6 +45,7 @@ class Alumno{
     this._idalumno = map['idalumno'];
     this._nombre = map['nombre'];
     this._password = map['password'];
+    this.faltas = map['faltas'];
   }
 
   // Métodos
@@ -67,12 +69,64 @@ class Alumno{
   insertarAlumno() async {
     var conn = await Database().conexion();
     try {
-      await conn.query('INSERT INTO alumnos (nombre, password, curso, grupo, fechaNacimiento, direccion, genero, inicioContrato, finContrato) VALUES (?,?,?,?,?,?,?,?,?)',
-          [_nombre, _password, _curso, _grupo, _fechaNacimiento, _direccion, _genero, _inicioContrato, _finContrato]);
-      print('Profesor insertado correctamente');
+      await conn.query('INSERT INTO alumnos (nombre, password, curso, grupo, faltas, fechaNacimiento, correo, telefono, direccion, genero, fechaIngreso, fechaGraduacion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+          [_nombre, _password, _curso, _grupo, faltas, _fechaNacimiento, _correo, _telefono, _direccion, _genero, _fechaIngreso, _fechaGraduacion]);
+      print('Alumno insertado correctamente');
     } catch (e) {
       print(e);
     } finally {
+      await conn.close();
+    }
+  }
+
+  all() async {
+    var conn = await Database().conexion();
+    try {
+      var resultado = await conn.query('SELECT * FROM alumnos');
+      List<Alumno> alumnos =
+          resultado.map((row) => Alumno.fromMap(row)).toList();
+      return alumnos;
+    } catch (e) {
+      print(e);
+    } finally {
+      await conn.close();
+    }
+  }
+
+  justificarFaltas() async{
+    var conn = await Database().conexion();
+    faltas--;
+    try {
+        await conn.query('UPDATE alumnos SET faltas = ? WHERE idalumno = ?',[faltas,_idalumno]);
+        print('Se ha justificado la falta');
+    } catch (e) {
+      print(e);
+    } finally {
+      await conn.close();
+    }
+  }
+
+  sumarFaltas() async{
+    var conn = await Database().conexion();
+    faltas++;
+    try {
+        await conn.query('UPDATE alumnos SET faltas = ? WHERE idalumno = ?',[faltas,_idalumno]);
+        print('Se ha añadido la falta');
+    } catch (e) {
+      print(e);
+    } finally {
+      await conn.close();
+    }
+  }  
+
+  getAlumno()async{
+    var conn = await Database().conexion();
+    try{
+      var resultado = await conn.query('SELECT idalumno FROM alumno WHERE nombre = ?', [nombre]);
+      return resultado;
+    } catch(e){
+      print(e); 
+    } finally{
       await conn.close();
     }
   }

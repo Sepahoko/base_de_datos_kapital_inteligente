@@ -14,15 +14,15 @@ class Database {
       user: this._user,
     );
     var conn = await MySqlConnection.connect(settings);
-    try{
+    //try{
       await _crearDB(conn);
       await _crearTablaProfesores(conn);
       await _crearTablaAlumnos(conn);
       await conn.close();
-    } catch(e){
-      print(e);
-      await conn.close();
-    } 
+    //} catch(e){
+      // print(e);
+      // await conn.close();
+    //} 
   }
 
   Future<MySqlConnection> conexion() async {
@@ -48,7 +48,7 @@ class Database {
         idprofesor INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
         nombre VARCHAR(50) NOT NULL,
         password VARCHAR(10) NOT NULL,
-        fechaNaciento DATE,
+        fechaNacimiento DATE,
         correo VARCHAR(50),
         telefono VARCHAR(9),
         direccion VARCHAR(50),
@@ -66,7 +66,8 @@ class Database {
         password VARCHAR(20) NOT NULL,
         curso VARCHAR(50),
         grupo VARCHAR(10),
-        fechaNaciento DATE,
+        faltas INT,
+        fechaNacimiento DATE,
         correo VARCHAR(50),
         telefono VARCHAR(9),
         direccion VARCHAR(50),
@@ -75,5 +76,6 @@ class Database {
         fechaGraduacion DATE
     )''');
     print('Tabla alumnos creada');
-  }  
+  }
+
 }

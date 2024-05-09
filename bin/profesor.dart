@@ -74,4 +74,19 @@ class Profesor {
       await conn.close();
     }
   }
+
+    all() async {
+    var conn = await Database().conexion();
+    try {
+      var resultado = await conn.query('SELECT * FROM profesores');
+      List<Profesor> profesores =
+          resultado.map((row) => Profesor.fromMap(row)).toList();
+      return profesores;
+    } catch (e) {
+      print(e);
+    } finally {
+      await conn.close();
+    }
+  }
+
 }
